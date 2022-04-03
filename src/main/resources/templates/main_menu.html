@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Embed Hub</title>
+</head>
+<body>
+<form method="post" action="/add">
+    <button type="submit" >
+        Add
+    </button>
+</form>
+<form method="post" action="/delete">
+    <button type="submit">
+        Delete all
+    </button>
+</form>
+
+<ul>
+    <li th:each="device : ${devices}">
+        <th:block th:text="${device.toString()} ">
+        </th:block>
+    </li>
+</ul>
+</body>
+</html>
