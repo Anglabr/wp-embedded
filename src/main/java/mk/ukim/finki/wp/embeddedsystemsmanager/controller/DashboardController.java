@@ -2,28 +2,26 @@ package mk.ukim.finki.wp.embeddedsystemsmanager.controller;
 
 import mk.ukim.finki.wp.embeddedsystemsmanager.model.PlantCareDevice;
 import mk.ukim.finki.wp.embeddedsystemsmanager.model.data_entry.PlantCareDataEntry;
-import mk.ukim.finki.wp.embeddedsystemsmanager.repository.PlantCareDeviceRepository;
+import mk.ukim.finki.wp.embeddedsystemsmanager.service.PlantCareDeviceService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import java.util.LinkedList;
 import java.util.List;
 
 @Controller
 public class DashboardController {
+    private final PlantCareDeviceService plantCareDeviceService;
 
-    private final PlantCareDeviceRepository plantCareDeviceRepository;
-
-    public DashboardController(PlantCareDeviceRepository plantCareDeviceRepository) {
-        this.plantCareDeviceRepository = plantCareDeviceRepository;
+    public DashboardController(PlantCareDeviceService plantCareDeviceService) {
+        this.plantCareDeviceService = plantCareDeviceService;
     }
 
     @GetMapping("/hello")
     String mainMenu(Model model){
 
-        List<PlantCareDevice> devices = plantCareDeviceRepository.findAll();
+        List<PlantCareDevice> devices = plantCareDeviceService.findAll();
 
         model.addAttribute("devices", devices);
 
@@ -33,9 +31,9 @@ public class DashboardController {
     @PostMapping("/delete")
     String deleteAll(Model model){
 
-        plantCareDeviceRepository.deleteAll();
+        plantCareDeviceService.deleteAll();
 
-        List<PlantCareDevice> devices = plantCareDeviceRepository.findAll();
+        List<PlantCareDevice> devices = plantCareDeviceService.findAll();
 
         model.addAttribute("devices", devices);
 
@@ -44,14 +42,18 @@ public class DashboardController {
 
     @PostMapping("/add")
     String add(Model model){
+        plantCareDeviceService.createPlantCareDevice();
 
-        PlantCareDevice plantCareDevice = new PlantCareDevice();
-
-        plantCareDeviceRepository.save(plantCareDevice);
-
-        List<PlantCareDevice> devices = plantCareDeviceRepository.findAll();
+        List<PlantCareDevice> devices = plantCareDeviceService.findAll();
 
         model.addAttribute("devices", devices);
+        return "main_menu";
+    }
+
+    @PostMapping("/addEntry/{id}")
+    String addDataEntry(Long id, Long temperature, Long humidity, Long soilMoisture){
+        plantCareDeviceService.addDataEntryById(id, new PlantCareDataEntry(temperature, humidity, soilMoisture));
+
         return "main_menu";
     }
 

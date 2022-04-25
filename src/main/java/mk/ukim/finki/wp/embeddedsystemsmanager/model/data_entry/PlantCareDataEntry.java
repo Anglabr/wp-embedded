@@ -10,6 +10,11 @@ import java.time.LocalDate;
 @Entity
 @Data
 public class PlantCareDataEntry {
+    public PlantCareDataEntry(Long temperature, Long humidity, Long soilMoisture) {
+        this.temperature = temperature;
+        this.humidity = humidity;
+        this.soilMoisture = soilMoisture;
+    }
 
     @Id
     @GeneratedValue
@@ -17,12 +22,16 @@ public class PlantCareDataEntry {
 
     LocalDate logTime;
 
-    Float temperature;
+    Long temperature;
 
-    Float humidity;
+    Long humidity;
 
-    Float soilMoisture;
+    Long soilMoisture;
 
     @ManyToOne
     PlantCareDevice device;
+
+    public PlantCareDataEntry() {
+
+    }
 }
