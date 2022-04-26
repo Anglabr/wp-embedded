@@ -18,7 +18,7 @@ public class DashboardController {
         this.plantCareDeviceService = plantCareDeviceService;
     }
 
-    @GetMapping("/hello")
+    @GetMapping({"/hello", "/"})
     String mainMenu(Model model){
 
         List<PlantCareDevice> devices = plantCareDeviceService.findAll();
