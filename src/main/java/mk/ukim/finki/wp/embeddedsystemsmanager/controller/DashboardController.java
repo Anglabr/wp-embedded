@@ -25,7 +25,8 @@ public class DashboardController {
 
         List<PlantCareDevice> devices = plantCareDeviceService.findAll();
 
-        model.addAttribute("devices", devices);
+        if(devices != null)
+            model.addAttribute("devices", devices);
 
         return "main_menu";
     }

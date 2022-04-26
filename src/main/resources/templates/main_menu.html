@@ -16,27 +16,30 @@
     </button>
 </form>
 
-<ul>
-    <li th:each="device : ${devices}">
-        <th:block th:text="${device.toString()} ">
-        </th:block>
-        <form method="post" th:action="@{'/addEntry/{id}' (id=${device.getId()})}">
-            <button type="submit">
-                Add entry
-            </button>
-            <input type="number" value="50" name="temperature" id="temperature">
-            <input type="number" value="50" name="humidity" id="humidity">
-            <input type="number" value="50" name="soilMoisture" id="soilMoisture">
-        </form>
+<th:block th:if="${devices != null}">
+    <ul >
+        <li th:each="device : ${devices}">
+            <th:block th:text="${device.toString()} ">
+            </th:block>
+            <form method="post" th:action="@{'/addEntry/{id}' (id=${device.getId()})}">
+                <button type="submit">
+                    Add entry
+                </button>
+                <input type="number" value="50" name="temperature" id="temperature">
+                <input type="number" value="50" name="humidity" id="humidity">
+                <input type="number" value="50" name="soilMoisture" id="soilMoisture">
+            </form>
 
-        <ul>
-            <li th:each="entry : ${device.getData()}">
-                <th:block th:text="${entry.toString()}">
+            <ul>
+                <li th:each="entry : ${device.getData()}">
+                    <th:block th:text="${entry.toString()}">
 
-                </th:block>
-            </li>
-        </ul>
-    </li>
-</ul>
+                    </th:block>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</th:block>
+
 </body>
 </html>
