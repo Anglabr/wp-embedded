@@ -21,5 +21,4 @@ public interface PlantCareDeviceService {
 
     PlantCareDevice findById(Long id);
 
-    PlantCareDataEntry addDataEntry(Long plantCareDeviceId, PlantCareDataEntry plantCareDataEntry);
 }

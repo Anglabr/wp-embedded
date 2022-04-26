@@ -77,18 +77,4 @@ public class PlantCareDeviceServiceImpl implements PlantCareDeviceService {
         return plantCareDeviceRepository.findById(id).orElseThrow(PlantCareDeviceIdException::new);
     }
 
-    @Override
-    public PlantCareDataEntry addDataEntry(Long plantCareDeviceId, PlantCareDataEntry plantCareDataEntry){
-       PlantCareDevice plantCareDevice = findById(plantCareDeviceId);
-
-       List<PlantCareDataEntry> list = plantCareDevice.getData();
-
-       list.add(plantCareDataEntry);
-
-       plantCareDeviceRepository.deleteById(plantCareDeviceId);
-
-       plantCareDeviceRepository.save(new PlantCareDevice(list));
-
-       return plantCareDataEntry;
-    }
 }
