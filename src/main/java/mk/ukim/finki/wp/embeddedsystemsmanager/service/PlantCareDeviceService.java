@@ -18,4 +18,8 @@ public interface PlantCareDeviceService {
     PlantCareDevice deleteById(Long id);
 
     List<PlantCareDevice> deleteAll();
+
+    PlantCareDevice findById(Long id);
+
+    PlantCareDataEntry addDataEntry(Long plantCareDeviceId, PlantCareDataEntry plantCareDataEntry);
 }

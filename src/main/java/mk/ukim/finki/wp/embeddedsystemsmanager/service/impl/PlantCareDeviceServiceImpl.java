@@ -3,6 +3,7 @@ package mk.ukim.finki.wp.embeddedsystemsmanager.service.impl;
 import mk.ukim.finki.wp.embeddedsystemsmanager.model.PlantCareDevice;
 import mk.ukim.finki.wp.embeddedsystemsmanager.model.data_entry.PlantCareDataEntry;
 import mk.ukim.finki.wp.embeddedsystemsmanager.model.exception.PlantCareDeviceIdException;
+import mk.ukim.finki.wp.embeddedsystemsmanager.repository.PlantCareDataEntryRepository;
 import mk.ukim.finki.wp.embeddedsystemsmanager.repository.PlantCareDeviceRepository;
 import mk.ukim.finki.wp.embeddedsystemsmanager.service.PlantCareDeviceService;
 import org.springframework.stereotype.Service;
@@ -13,9 +14,11 @@ import java.util.List;
 public class PlantCareDeviceServiceImpl implements PlantCareDeviceService {
 
     private final PlantCareDeviceRepository plantCareDeviceRepository;
+    private final PlantCareDataEntryRepository plantCareDataEntryRepository;
 
-    public PlantCareDeviceServiceImpl(PlantCareDeviceRepository plantCareDeviceRepository) {
+    public PlantCareDeviceServiceImpl(PlantCareDeviceRepository plantCareDeviceRepository, PlantCareDataEntryRepository plantCareDataEntryRepository) {
         this.plantCareDeviceRepository = plantCareDeviceRepository;
+        this.plantCareDataEntryRepository = plantCareDataEntryRepository;
     }
 
     @Override
@@ -23,6 +26,8 @@ public class PlantCareDeviceServiceImpl implements PlantCareDeviceService {
         PlantCareDevice plantCareDevice = plantCareDeviceRepository.findById(id).orElseThrow(PlantCareDeviceIdException::new);
 
         plantCareDevice.getData().add(plantCareDataEntry);
+
+        plantCareDataEntryRepository.save(plantCareDataEntry);
 
         plantCareDeviceRepository.save(plantCareDevice);
 
@@ -53,6 +58,7 @@ public class PlantCareDeviceServiceImpl implements PlantCareDeviceService {
         PlantCareDevice plantCareDevice = plantCareDeviceRepository.findById(id).orElseThrow(PlantCareDeviceIdException::new);
 
         plantCareDeviceRepository.deleteById(id);
+        plantCareDataEntryRepository.deleteAll(plantCareDevice.getData());
 
         return plantCareDevice;
     }
@@ -62,8 +68,27 @@ public class PlantCareDeviceServiceImpl implements PlantCareDeviceService {
         List<PlantCareDevice> plantCareDevices = plantCareDeviceRepository.findAll();
 
         plantCareDeviceRepository.deleteAll();
-
+        plantCareDataEntryRepository.deleteAll();
         return plantCareDevices;
     }
 
+    @Override
+    public PlantCareDevice findById(Long id) {
+        return plantCareDeviceRepository.findById(id).orElseThrow(PlantCareDeviceIdException::new);
+    }
+
+    @Override
+    public PlantCareDataEntry addDataEntry(Long plantCareDeviceId, PlantCareDataEntry plantCareDataEntry){
+       PlantCareDevice plantCareDevice = findById(plantCareDeviceId);
+
+       List<PlantCareDataEntry> list = plantCareDevice.getData();
+
+       list.add(plantCareDataEntry);
+
+       plantCareDeviceRepository.deleteById(plantCareDeviceId);
+
+       plantCareDeviceRepository.save(new PlantCareDevice(list));
+
+       return plantCareDataEntry;
+    }
 }

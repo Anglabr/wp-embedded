@@ -1,7 +1,6 @@
 package mk.ukim.finki.wp.embeddedsystemsmanager.model.data_entry;
 
 import lombok.Data;
-import mk.ukim.finki.wp.embeddedsystemsmanager.model.PlantCareDevice;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -18,7 +17,7 @@ public class PlantCareDataEntry {
 
     @Id
     @GeneratedValue
-    long Id;
+    Long id;
 
     LocalDate logTime;
 
@@ -28,10 +27,12 @@ public class PlantCareDataEntry {
 
     Long soilMoisture;
 
-    @ManyToOne
-    PlantCareDevice device;
-
     public PlantCareDataEntry() {
 
+    }
+
+    @Override
+    public String toString() {
+        return "PlantCareDataEntry" + id.toString();
     }
 }
