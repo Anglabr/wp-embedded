@@ -10,6 +10,7 @@ import java.time.LocalDate;
 @Data
 public class PlantCareDataEntry {
     public PlantCareDataEntry(Long temperature, Long humidity, Long soilMoisture) {
+        this.logTime = LocalDate.now();
         this.temperature = temperature;
         this.humidity = humidity;
         this.soilMoisture = soilMoisture;
