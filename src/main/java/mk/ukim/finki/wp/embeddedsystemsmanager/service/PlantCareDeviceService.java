@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface PlantCareDeviceService {
 
-    PlantCareDataEntry addDataEntryById(Long id, PlantCareDataEntry plantCareDataEntry);
+    PlantCareDataEntry addDataEntryById(Long id, Long temperature, Long humidity, Long soilMoisture);
 
     List<PlantCareDataEntry> getAllDataEntriesById(Long id);
 
@@ -20,5 +20,4 @@ public interface PlantCareDeviceService {
     List<PlantCareDevice> deleteAll();
 
     PlantCareDevice findById(Long id);
-
 }

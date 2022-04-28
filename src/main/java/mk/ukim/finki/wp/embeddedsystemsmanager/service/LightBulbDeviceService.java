@@ -16,4 +16,6 @@ public interface LightBulbDeviceService {
     LightBulbDataEntry turnLightBulbOnOff(Long lightBulbDeviceId);
 
     LightBulbDevice saveLightBulbDevice(@Nullable String location);
+
+    LightBulbDevice findLightBulbDeviceById(Long id);
 }

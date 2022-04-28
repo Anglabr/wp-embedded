@@ -15,17 +15,6 @@ public class PlantCareDevice {
     Long id;
 
 
-    public PlantCareDevice(List<PlantCareDataEntry> data){
-        this.data = data;
-    }
-
-    @OneToMany(fetch = FetchType.EAGER)
-    List<PlantCareDataEntry> data;
-
-    public PlantCareDevice() {
-
-    }
-
     @Override
     public String toString() {
         return "PlantCareDevice" + id.toString();
