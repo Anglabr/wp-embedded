@@ -40,6 +40,43 @@
         </li>
     </ul>
 </th:block>
+<form method="post" action="/addLightBulb">
+    <button type="submit">Add Light Bulb</button>
+    <input type="text" name="location" id="location">
+</form>
+<th:block th:if="${lightBulbDevices != null}">
+    <ul>
+        <li th:each="device : ${lightBulbDevices}">
+
+            <th:block th:text="${device.toString()}"></th:block>
+
+            <th:block th:text="${device.getTurnedOn() == true ? 'On' : 'Off'}">
+
+            </th:block>
+            <form method="post" th:action="@{'/toggle/{id}' (id=${device.getId()})}">
+                <button type="submit">Toggle light</button>
+            </form>
+
+            <form method="get" th:action="@{'/view/lightBulb/{id}' (id=${device.getId()})}">
+                <button type="submit">
+                    View data
+                </button>
+            </form>
+
+
+        </li>
+    </ul>
+</th:block>
+
+<th:block th:if="${lightBulbDataEntries != null}">
+    <ul>
+        <li th:each="entry : ${lightBulbDataEntries}">
+            <th:block th:text="${entry.toString()}">
+
+            </th:block>
+        </li>
+    </ul>
+</th:block>
 
 </body>
 </html>
