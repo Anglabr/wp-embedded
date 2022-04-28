@@ -14,41 +14,33 @@
 
 <div th:insert="fragments/header :: header"></div>
 
-<form method="post" action="/add">
-    <button type="submit" >
-        Add
-    </button>
-</form>
-<form method="post" action="/delete">
-    <button type="submit">
-        Delete all
-    </button>
-</form>
-
-<th:block th:if="${devices != null}">
-    <ul >
-        <li th:each="device : ${devices}">
-            <th:block th:text="${device.toString()} ">
-            </th:block>
-            <form method="post" th:action="@{'/addEntry/{id}' (id=${device.getId()})}">
-                <button type="submit">
-                    Add entry
+<div class="container">
+    <h1 class="my-5">My devices</h1>
+    <div class="d-flex flex-row mb-3">
+        <div class="me-2">
+            <form method="post" action="/add">
+                <button type="submit" class="btn btn-primary my-2">
+                    Add
                 </button>
-                <input type="number" value="50" name="temperature" id="temperature">
-                <input type="number" value="50" name="humidity" id="humidity">
-                <input type="number" value="50" name="soilMoisture" id="soilMoisture">
             </form>
-
-            <ul>
-                <li th:each="entry : ${device.getData()}">
-                    <th:block th:text="${entry.toString()}">
-
-                    </th:block>
-                </li>
-            </ul>
-        </li>
-    </ul>
-</th:block>
+        </div>
+        <div>
+            <form method="post" action="/delete">
+                <button type="submit" class="btn btn-danger my-2">
+                    Delete all
+                </button>
+            </form>
+        </div>
+    </div>
+    <th:block th:if="${devices != null}">
+        <div class="list-group">
+            <a th:each="device : ${devices}" th:href="@{/devices/${device.getId()}}" class="list-group-item list-group-item-action">
+                <th:block th:text="${device.toString()} ">
+                </th:block>
+            </a>
+        </div>
+    </th:block>
+</div>
 
 <div th:insert="fragments/footer :: footer"></div>
 
