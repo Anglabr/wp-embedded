@@ -5,6 +5,9 @@
     <title>Embed Hub</title>
 </head>
 <body>
+
+<script type="text/javascript" src="lbd.js"></script>
+
 <form method="post" action="/add">
     <button type="submit" >
         Add
@@ -29,14 +32,6 @@
                 <input type="number" value="50" name="humidity" id="humidity">
                 <input type="number" value="50" name="soilMoisture" id="soilMoisture">
             </form>
-
-            <ul>
-                <li th:each="entry : ${device.getData()}">
-                    <th:block th:text="${entry.toString()}">
-
-                    </th:block>
-                </li>
-            </ul>
         </li>
     </ul>
 </th:block>
@@ -50,9 +45,10 @@
 
             <th:block th:text="${device.toString()}"></th:block>
 
-            <th:block th:text="${device.getTurnedOn() == true ? 'On' : 'Off'}">
+            <label th:text="${device.getTurnedOn() == true ? 'On' : 'Off'}" th:id="${device.getId()}">
 
-            </th:block>
+            </label>
+
             <form method="post" th:action="@{'/toggle/{id}' (id=${device.getId()})}">
                 <button type="submit">Toggle light</button>
             </form>
