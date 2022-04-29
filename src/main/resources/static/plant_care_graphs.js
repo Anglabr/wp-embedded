@@ -1,7 +1,4 @@
-const temperatureCtx = document.getElementById('temperatureChart').getContext('2d');
-const humidityCtx = document.getElementById('humidityChart').getContext('2d');
-const soilMoistureCtx = document.getElementById('soilMoistureChart').getContext('2d');
-
+const ctx = document.getElementById('chart').getContext('2d');
 
 let dataEntryDiv = document.getElementsByName("data");
 
@@ -19,59 +16,36 @@ for (let i = 0; i < dataEntryDiv.length; i++) {
     soilMoisture[i] = parseInt(temp[3])
 }
 
-const temperatureChart = new Chart(temperatureCtx, {
+const dataChart = new Chart(ctx, {
     type: 'bar',
     data: {
         labels: dates,
-        datasets: [{
-            label: 'Temperature chart',
-            data: temperature,
-            backgroundColor: "red",
-            borderColor: [],
-            borderWidth: 1
-        }]
-    },
-    options: {
-        scales: {
-            y: {
-                beginAtZero: true
-            }
-        }
-    }
-});
+        datasets: [
+            {
+                label: 'Temperature chart',
+                data: temperature,
+                backgroundColor: "red",
+                borderColor: [],
+                borderWidth: 1
+            },
 
-const humidityChart = new Chart(humidityCtx, {
-    type: 'bar',
-    data: {
-        labels: dates,
-        datasets: [{
-            label: 'Humidity chart',
-            data: humidity,
-            backgroundColor: "blue",
-            borderColor: [],
-            borderWidth: 1
-        }]
-    },
-    options: {
-        scales: {
-            y: {
-                beginAtZero: true
-            }
-        }
-    }
-});
+            {
+                label: 'Humidity chart',
+                data: humidity,
+                backgroundColor: "blue",
+                borderColor: [],
+                borderWidth: 1
+            },
 
-const soilMoistureChart = new Chart(soilMoistureCtx, {
-    type: 'bar',
-    data: {
-        labels: dates,
-        datasets: [{
-            label: 'Soil moisture chart',
-            data: soilMoisture,
-            backgroundColor: "orange",
-            borderColor: [],
-            borderWidth: 1
-        }]
+            {
+                label: 'Soil moisture chart',
+                data: soilMoisture,
+                backgroundColor: "orange",
+                borderColor: [],
+                borderWidth: 1
+            }
+
+        ]
     },
     options: {
         scales: {
