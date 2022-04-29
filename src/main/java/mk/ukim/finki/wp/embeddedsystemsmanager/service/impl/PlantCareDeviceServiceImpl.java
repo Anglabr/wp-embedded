@@ -26,7 +26,7 @@ public class PlantCareDeviceServiceImpl implements PlantCareDeviceService {
     public Optional<PlantCareDataEntry> addDataEntryById(Long id, Long temperature, Long humidity, Long soilMoisture) {
         PlantCareDevice plantCareDevice = plantCareDeviceRepository.findById(id).orElseThrow(PlantCareDeviceIdException::new);
 
-        return Optional.of(plantCareDataEntryRepository.save(new PlantCareDataEntry(plantCareDevice, humidity, soilMoisture, temperature)));
+        return Optional.of(plantCareDataEntryRepository.save(new PlantCareDataEntry(plantCareDevice, temperature, humidity, soilMoisture )));
     }
 
     @Override
@@ -63,8 +63,8 @@ public class PlantCareDeviceServiceImpl implements PlantCareDeviceService {
     public List<PlantCareDevice> deleteAll() {
         List<PlantCareDevice> plantCareDevices = plantCareDeviceRepository.findAll();
 
-        plantCareDeviceRepository.deleteAll();
         plantCareDataEntryRepository.deleteAll();
+        plantCareDeviceRepository.deleteAll();
         return plantCareDevices;
     }
 

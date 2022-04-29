@@ -5,6 +5,7 @@ import mk.ukim.finki.wp.embeddedsystemsmanager.model.PlantCareDevice;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 
 @Entity
@@ -39,6 +40,6 @@ public class PlantCareDataEntry {
 
     @Override
     public String toString() {
-        return "PlantCareDataEntry" + id.toString();
+        return String.format("%d.%d.%d %d %d %d", logTime.getDayOfMonth(), logTime.getMonthValue(), logTime.getYear(), temperature, humidity, soilMoisture);
     }
 }

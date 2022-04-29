@@ -13,4 +13,6 @@ public interface PlantCareDeviceRepository extends JpaRepository<PlantCareDevice
     @Override
     Optional<PlantCareDevice> findById(Long aLong);
 
+    @Override
+    void deleteAll();
 }

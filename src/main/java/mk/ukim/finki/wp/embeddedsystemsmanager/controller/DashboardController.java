@@ -3,6 +3,7 @@ package mk.ukim.finki.wp.embeddedsystemsmanager.controller;
 import mk.ukim.finki.wp.embeddedsystemsmanager.model.LightBulbDevice;
 import mk.ukim.finki.wp.embeddedsystemsmanager.model.PlantCareDevice;
 import mk.ukim.finki.wp.embeddedsystemsmanager.model.data_entry.LightBulbDataEntry;
+import mk.ukim.finki.wp.embeddedsystemsmanager.model.data_entry.PlantCareDataEntry;
 import mk.ukim.finki.wp.embeddedsystemsmanager.service.LightBulbDeviceService;
 import mk.ukim.finki.wp.embeddedsystemsmanager.service.PlantCareDeviceService;
 import org.springframework.http.MediaType;
@@ -59,7 +60,7 @@ public class DashboardController {
     @PostMapping("/addEntry/{id}")
     String addDataEntry(@PathVariable Long id, @RequestParam Long temperature, @RequestParam Long humidity, @RequestParam Long soilMoisture){
         plantCareDeviceService.addDataEntryById(id, temperature, humidity, soilMoisture);
-        return "redirect:/";
+        return "redirect:/devices?id=" + id;
     }
 
     @PostMapping("/addLightBulb")
@@ -111,6 +112,9 @@ public class DashboardController {
         if (this.plantCareDeviceService.findById(id).isPresent()) {
             PlantCareDevice plantCareDevice = this.plantCareDeviceService.findById(id).get();
             model.addAttribute("device", plantCareDevice);
+
+            List<PlantCareDataEntry> plantCareDataEntries = plantCareDeviceService.getAllDataEntriesById(id);
+            model.addAttribute("entries", plantCareDataEntries);
             return "device_details";
         }
         return "redirect:/devices?error=DeviceNotFound";
