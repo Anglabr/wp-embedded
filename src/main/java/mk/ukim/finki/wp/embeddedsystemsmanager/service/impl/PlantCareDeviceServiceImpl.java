@@ -9,6 +9,7 @@ import mk.ukim.finki.wp.embeddedsystemsmanager.service.PlantCareDeviceService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PlantCareDeviceServiceImpl implements PlantCareDeviceService {
@@ -22,7 +23,7 @@ public class PlantCareDeviceServiceImpl implements PlantCareDeviceService {
     }
 
     @Override
-    public PlantCareDataEntry addDataEntryById(Long id, PlantCareDataEntry plantCareDataEntry) {
+    public Optional<PlantCareDataEntry> addDataEntryById(Long id, PlantCareDataEntry plantCareDataEntry) {
         PlantCareDevice plantCareDevice = plantCareDeviceRepository.findById(id).orElseThrow(PlantCareDeviceIdException::new);
 
         plantCareDevice.getData().add(plantCareDataEntry);
@@ -31,7 +32,7 @@ public class PlantCareDeviceServiceImpl implements PlantCareDeviceService {
 
         plantCareDeviceRepository.save(plantCareDevice);
 
-        return plantCareDataEntry;
+        return Optional.of(plantCareDataEntry);
     }
 
     @Override
@@ -47,20 +48,20 @@ public class PlantCareDeviceServiceImpl implements PlantCareDeviceService {
     }
 
     @Override
-    public PlantCareDevice createPlantCareDevice() {
+    public Optional<PlantCareDevice> createPlantCareDevice() {
         PlantCareDevice plantCareDevice = new PlantCareDevice();
 
-        return plantCareDeviceRepository.save(plantCareDevice);
+        return Optional.of(plantCareDeviceRepository.save(plantCareDevice));
     }
 
     @Override
-    public PlantCareDevice deleteById(Long id) {
+    public Optional<PlantCareDevice> deleteById(Long id) {
         PlantCareDevice plantCareDevice = plantCareDeviceRepository.findById(id).orElseThrow(PlantCareDeviceIdException::new);
 
         plantCareDeviceRepository.deleteById(id);
         plantCareDataEntryRepository.deleteAll(plantCareDevice.getData());
 
-        return plantCareDevice;
+        return Optional.of(plantCareDevice);
     }
 
     @Override
@@ -73,8 +74,8 @@ public class PlantCareDeviceServiceImpl implements PlantCareDeviceService {
     }
 
     @Override
-    public PlantCareDevice findById(Long id) {
-        return plantCareDeviceRepository.findById(id).orElseThrow(PlantCareDeviceIdException::new);
+    public Optional<PlantCareDevice> findById(Long id) {
+        return Optional.of(plantCareDeviceRepository.findById(id).orElseThrow(PlantCareDeviceIdException::new));
     }
 
 }

@@ -6,6 +6,7 @@ import mk.ukim.finki.wp.embeddedsystemsmanager.repository.LightBulbDeviceReposit
 import org.springframework.lang.Nullable;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface LightBulbDeviceService {
 
@@ -13,7 +14,7 @@ public interface LightBulbDeviceService {
 
     List<LightBulbDataEntry> findAllDataForLightBulb(Long lightBulbDeviceId);
 
-    LightBulbDataEntry turnLightBulbOnOff(Long lightBulbDeviceId);
+    Optional<LightBulbDataEntry> turnLightBulbOnOff(Long lightBulbDeviceId);
 
-    LightBulbDevice saveLightBulbDevice(@Nullable String location);
+    Optional<LightBulbDevice> saveLightBulbDevice(@Nullable String location);
 }
