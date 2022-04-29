@@ -40,6 +40,6 @@ public class PlantCareDataEntry {
 
     @Override
     public String toString() {
-        return String.format("%s %d %d %d", logTime.toString(), temperature, humidity, soilMoisture);
+        return String.format("%d.%d.%d %d %d %d", logTime.getDayOfMonth(), logTime.getMonthValue(), logTime.getYear(), temperature, humidity, soilMoisture);
     }
 }
