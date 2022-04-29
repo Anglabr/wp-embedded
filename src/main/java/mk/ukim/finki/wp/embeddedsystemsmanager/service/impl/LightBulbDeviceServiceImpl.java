@@ -10,6 +10,7 @@ import mk.ukim.finki.wp.embeddedsystemsmanager.service.LightBulbDeviceService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class LightBulbDeviceServiceImpl implements LightBulbDeviceService {
@@ -35,7 +36,7 @@ public class LightBulbDeviceServiceImpl implements LightBulbDeviceService {
     }
 
     @Override
-    public LightBulbDataEntry turnLightBulbOnOff(Long lightBulbDeviceId) {
+    public Optional<LightBulbDataEntry> turnLightBulbOnOff(Long lightBulbDeviceId) {
         LightBulbDevice lightBulbDevice = lightBulbDeviceRepository.findById(lightBulbDeviceId).orElseThrow(LightBulbDeviceNotFoundException::new);
 
         Boolean turnedOn = !lightBulbDevice.getTurnedOn();
@@ -48,16 +49,16 @@ public class LightBulbDeviceServiceImpl implements LightBulbDeviceService {
 
         lightBulbDeviceRepository.save(lightBulbDevice);
 
-        return lightBulbDataEntry;
+        return Optional.of(lightBulbDataEntry);
     }
 
     @Override
-    public LightBulbDevice saveLightBulbDevice(String location) {
-        return lightBulbDeviceRepository.save(new LightBulbDevice(location == null ? "" : location));
+    public Optional<LightBulbDevice> saveLightBulbDevice(String location) {
+        return Optional.of(lightBulbDeviceRepository.save(new LightBulbDevice(location == null ? "" : location)));
     }
 
     @Override
-    public LightBulbDevice findLightBulbDeviceById(Long id) {
-        return lightBulbDeviceRepository.findById(id).orElseThrow(PlantCareDeviceIdException::new);
+    public Optional<LightBulbDevice> findLightBulbDeviceById(Long id) {
+        return Optional.of(lightBulbDeviceRepository.findById(id).orElseThrow(PlantCareDeviceIdException::new));
     }
 }

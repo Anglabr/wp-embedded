@@ -4,20 +4,22 @@ import mk.ukim.finki.wp.embeddedsystemsmanager.model.PlantCareDevice;
 import mk.ukim.finki.wp.embeddedsystemsmanager.model.data_entry.PlantCareDataEntry;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface PlantCareDeviceService {
 
-    PlantCareDataEntry addDataEntryById(Long id, Long temperature, Long humidity, Long soilMoisture);
+    Optional<PlantCareDataEntry> addDataEntryById(Long id, Long temperature, Long humidity, Long soilMoisture);
 
     List<PlantCareDataEntry> getAllDataEntriesById(Long id);
 
     List<PlantCareDevice> findAll();
 
-    PlantCareDevice createPlantCareDevice();
+    Optional<PlantCareDevice> createPlantCareDevice();
 
-    PlantCareDevice deleteById(Long id);
+    Optional<PlantCareDevice> deleteById(Long id);
 
     List<PlantCareDevice> deleteAll();
 
-    PlantCareDevice findById(Long id);
+    Optional<PlantCareDevice> findById(Long id);
+
 }
