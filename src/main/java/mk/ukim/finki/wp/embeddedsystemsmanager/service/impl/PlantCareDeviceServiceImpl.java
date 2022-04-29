@@ -63,8 +63,8 @@ public class PlantCareDeviceServiceImpl implements PlantCareDeviceService {
     public List<PlantCareDevice> deleteAll() {
         List<PlantCareDevice> plantCareDevices = plantCareDeviceRepository.findAll();
 
-        plantCareDeviceRepository.deleteAll();
         plantCareDataEntryRepository.deleteAll();
+        plantCareDeviceRepository.deleteAll();
         return plantCareDevices;
     }
 
