@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface PlantCareDeviceService {
 
-    Optional<PlantCareDataEntry> addDataEntryById(Long id, PlantCareDataEntry plantCareDataEntry);
+    Optional<PlantCareDataEntry> addDataEntryById(Long id, Long temperature, Long humidity, Long soilMoisture);
 
     List<PlantCareDataEntry> getAllDataEntriesById(Long id);
 

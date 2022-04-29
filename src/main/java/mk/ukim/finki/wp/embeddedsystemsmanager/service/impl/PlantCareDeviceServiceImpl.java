@@ -23,23 +23,15 @@ public class PlantCareDeviceServiceImpl implements PlantCareDeviceService {
     }
 
     @Override
-    public Optional<PlantCareDataEntry> addDataEntryById(Long id, PlantCareDataEntry plantCareDataEntry) {
+    public Optional<PlantCareDataEntry> addDataEntryById(Long id, Long temperature, Long humidity, Long soilMoisture) {
         PlantCareDevice plantCareDevice = plantCareDeviceRepository.findById(id).orElseThrow(PlantCareDeviceIdException::new);
 
-        plantCareDevice.getData().add(plantCareDataEntry);
-
-        plantCareDataEntryRepository.save(plantCareDataEntry);
-
-        plantCareDeviceRepository.save(plantCareDevice);
-
-        return Optional.of(plantCareDataEntry);
+        return Optional.of(plantCareDataEntryRepository.save(new PlantCareDataEntry(plantCareDevice, humidity, soilMoisture, temperature)));
     }
 
     @Override
-    public List<PlantCareDataEntry> getAllDataEntriesById(Long id) {
-        PlantCareDevice plantCareDevice = plantCareDeviceRepository.findById(id).orElseThrow(PlantCareDeviceIdException::new);
-
-        return plantCareDevice.getData();
+    public List<PlantCareDataEntry> getAllDataEntriesById(Long plantCareDeviceId) {
+        return plantCareDataEntryRepository.findAllByPlantCareDeviceId(plantCareDeviceId);
     }
 
     @Override
@@ -59,7 +51,10 @@ public class PlantCareDeviceServiceImpl implements PlantCareDeviceService {
         PlantCareDevice plantCareDevice = plantCareDeviceRepository.findById(id).orElseThrow(PlantCareDeviceIdException::new);
 
         plantCareDeviceRepository.deleteById(id);
-        plantCareDataEntryRepository.deleteAll(plantCareDevice.getData());
+
+        List<PlantCareDataEntry> entries =  getAllDataEntriesById(id);
+
+        plantCareDataEntryRepository.deleteAll(entries);
 
         return Optional.of(plantCareDevice);
     }

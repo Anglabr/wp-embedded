@@ -17,4 +17,6 @@ public interface LightBulbDeviceService {
     Optional<LightBulbDataEntry> turnLightBulbOnOff(Long lightBulbDeviceId);
 
     Optional<LightBulbDevice> saveLightBulbDevice(@Nullable String location);
+
+    Optional<LightBulbDevice> findLightBulbDeviceById(Long id);
 }

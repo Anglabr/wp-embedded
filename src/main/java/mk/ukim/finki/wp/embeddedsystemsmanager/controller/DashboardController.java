@@ -3,19 +3,26 @@ package mk.ukim.finki.wp.embeddedsystemsmanager.controller;
 import mk.ukim.finki.wp.embeddedsystemsmanager.model.LightBulbDevice;
 import mk.ukim.finki.wp.embeddedsystemsmanager.model.PlantCareDevice;
 import mk.ukim.finki.wp.embeddedsystemsmanager.model.data_entry.LightBulbDataEntry;
-import mk.ukim.finki.wp.embeddedsystemsmanager.model.data_entry.PlantCareDataEntry;
 import mk.ukim.finki.wp.embeddedsystemsmanager.service.LightBulbDeviceService;
 import mk.ukim.finki.wp.embeddedsystemsmanager.service.PlantCareDeviceService;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import reactor.core.publisher.Flux;
+import java.time.Duration;
+import java.util.Collections;
 import java.util.List;
 
 @Controller
 public class DashboardController {
     private final PlantCareDeviceService plantCareDeviceService;
     private final LightBulbDeviceService lightBulbDeviceService;
+
+    private String lbd_subscription = "";
 
     public DashboardController(PlantCareDeviceService plantCareDeviceService, LightBulbDeviceService lightBulbDeviceService) {
         this.plantCareDeviceService = plantCareDeviceService;
@@ -39,43 +46,33 @@ public class DashboardController {
     }
 
     @PostMapping("/delete")
-    String deleteAll(Model model){
-
+    String deleteAll(){
         plantCareDeviceService.deleteAll();
-
-        List<PlantCareDevice> devices = plantCareDeviceService.findAll();
-
-        model.addAttribute("devices", devices);
-
         return "redirect:/";
     }
 
     @PostMapping("/add")
-    String add(Model model){
+    String add(){
         plantCareDeviceService.createPlantCareDevice();
-
-        List<PlantCareDevice> devices = plantCareDeviceService.findAll();
-
-        model.addAttribute("devices", devices);
         return "redirect:/";
     }
 
     @PostMapping("/addEntry/{id}")
     String addDataEntry(@PathVariable Long id, @RequestParam Long temperature, @RequestParam Long humidity, @RequestParam Long soilMoisture){
-        plantCareDeviceService.addDataEntryById(id, new PlantCareDataEntry(temperature, humidity, soilMoisture));
-        return "redirect:/hello";
+        plantCareDeviceService.addDataEntryById(id, temperature, humidity, soilMoisture);
+        return "redirect:/";
     }
 
     @PostMapping("/addLightBulb")
     String addLightBulbDevice(@RequestParam(required = false) String location){
         lightBulbDeviceService.saveLightBulbDevice(location);
-
-        return "redirect:/hello";
+        return "redirect:/";
     }
 
     @PostMapping("/toggle/{id}")
     String toggleLightBulb(@PathVariable Long id){
         lightBulbDeviceService.turnLightBulbOnOff(id);
+        lbd_subscription = String.format("%d %s", id, lightBulbDeviceService.findLightBulbDeviceById(id).getTurnedOn() ? "On" : "Off");
         return "redirect:/";
     }
 
@@ -100,6 +97,13 @@ public class DashboardController {
         return "main_menu";
     }
 
+    @GetMapping(value="/lightbulb/stream" , produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    public Flux<String> lightBulbStream(){
+        return Flux.interval(Duration.ofMillis(500))
+                .map(i -> lbd_subscription)
+                .distinctUntilChanged();
+    }
+
     @RequestMapping("/devices")
     String deviceDetails(@RequestParam Long id, Model model) {
         if (this.plantCareDeviceService.findById(id).isPresent()) {
@@ -109,4 +113,5 @@ public class DashboardController {
         }
         return "redirect:/devices?error=DeviceNotFound";
     }
+
 }
