@@ -8,8 +8,16 @@ let soilMoisture = []
 let dates = []
 
 let temp;
-for (let i = 0; i < dataEntryDiv.length; i++) {
-    temp = dataEntryDiv[i].innerText.split(" ")
+let n
+if (dataEntryDiv.length >= 20){
+    n = 20
+}
+else {
+    n = dataEntryDiv.length
+}
+
+for ( let i = 0; i < n; i++) {
+    temp = dataEntryDiv[dataEntryDiv.length - n + i].innerText.split(" ")
     dates[i] = temp[0]
     temperature[i] = parseInt(temp[1])
     humidity[i] = parseInt(temp[2])
