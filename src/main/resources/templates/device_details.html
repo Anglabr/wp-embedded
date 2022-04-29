@@ -16,6 +16,34 @@
 
 <div class="container">
     <h2 th:text="${device.toString()}"></h2>
+
+    <form method="post" th:action="@{/addEntry/{id} (id=${device.getId()})}">
+        <button type="submit" class="btn btn-primary">Add data</button>
+        <label for="temperature">Temperature:</label><input type="number" th:value="50" id="temperature" name="temperature">
+        <label for="humidity">Humidity:</label><input type="number" th:value="50" id="humidity" name="humidity">
+        <label for="soilMoisture">Soil moisture</label><input type="number" th:value="50" id="soilMoisture" name="soilMoisture">
+    </form>
+
+
+
+</div>
+
+<div class="container">
+    <div class="list-group">
+        <h6 th:name="data" th:each="entry : ${entries}" class="list-group-item list-group-item-action">
+            <th:block th:text="${entry.toString()} ">
+            </th:block>
+        </h6>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
+<script src="plant_care_graphs.js" defer></script>
+
+<div class="container" id="graph">
+    <canvas id="temperatureChart" width="100" height="50"></canvas>
+    <canvas id="humidityChart" width="100" height="50"></canvas>
+    <canvas id="soilMoistureChart" width="100" height="50"></canvas>
 </div>
 
 <div th:insert="fragments/footer :: footer" class="mt-auto"></div>
