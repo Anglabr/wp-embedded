@@ -47,7 +47,7 @@ public class DashboardController {
 
         model.addAttribute("devices", devices);
 
-        return "main_menu";
+        return "redirect:/";
     }
 
     @PostMapping("/add")
@@ -57,7 +57,7 @@ public class DashboardController {
         List<PlantCareDevice> devices = plantCareDeviceService.findAll();
 
         model.addAttribute("devices", devices);
-        return "main_menu";
+        return "redirect:/";
     }
 
     @PostMapping("/addEntry/{id}")
