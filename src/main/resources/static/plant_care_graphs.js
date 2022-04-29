@@ -10,8 +10,6 @@ let humidity = []
 let soilMoisture = []
 let dates = []
 
-console.log("Hello 1")
-
 let temp;
 for (let i = 0; i < dataEntryDiv.length; i++) {
     temp = dataEntryDiv[i].innerText.split(" ")
@@ -20,9 +18,6 @@ for (let i = 0; i < dataEntryDiv.length; i++) {
     humidity[i] = parseInt(temp[2])
     soilMoisture[i] = parseInt(temp[3])
 }
-
-console.log("Hello 2")
-temperature.forEach((element) => console.log(element))
 
 const temperatureChart = new Chart(temperatureCtx, {
     type: 'bar',
@@ -39,8 +34,7 @@ const temperatureChart = new Chart(temperatureCtx, {
     options: {
         scales: {
             y: {
-                beginAtZero: true,
-                suggestedMin: 0,
+                beginAtZero: true
             }
         }
     }
@@ -61,8 +55,7 @@ const humidityChart = new Chart(humidityCtx, {
     options: {
         scales: {
             y: {
-                beginAtZero: true,
-                suggestedMin: 0,
+                beginAtZero: true
             }
         }
     }
@@ -83,8 +76,7 @@ const soilMoistureChart = new Chart(soilMoistureCtx, {
     options: {
         scales: {
             y: {
-                beginAtZero: true,
-                suggestedMin: 0,
+                beginAtZero: true
             }
         }
     }
