@@ -58,7 +58,7 @@ public class LightBulbDeviceServiceImpl implements LightBulbDeviceService {
     }
 
     @Override
-    public LightBulbDevice findLightBulbDeviceById(Long id) {
-        return lightBulbDeviceRepository.findById(id).orElseThrow(PlantCareDeviceIdException::new);
+    public Optional<LightBulbDevice> findLightBulbDeviceById(Long id) {
+        return Optional.of(lightBulbDeviceRepository.findById(id).orElseThrow(PlantCareDeviceIdException::new));
     }
 }

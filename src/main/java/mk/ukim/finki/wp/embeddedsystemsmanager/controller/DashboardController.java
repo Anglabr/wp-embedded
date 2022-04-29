@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import reactor.core.publisher.Flux;
 import java.time.Duration;
-import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -71,9 +70,12 @@ public class DashboardController {
 
     @PostMapping("/toggle/{id}")
     String toggleLightBulb(@PathVariable Long id){
-        lightBulbDeviceService.turnLightBulbOnOff(id);
-        lbd_subscription = String.format("%d %s", id, lightBulbDeviceService.findLightBulbDeviceById(id).getTurnedOn() ? "On" : "Off");
-        return "redirect:/";
+        if (lightBulbDeviceService.findLightBulbDeviceById(id).isPresent()) {
+            lightBulbDeviceService.turnLightBulbOnOff(id);
+            lbd_subscription = String.format("%d %s", id, lightBulbDeviceService.findLightBulbDeviceById(id).get().getTurnedOn() ? "On" : "Off");
+            return "redirect:/";
+        }
+        return "redirect:/devices?error=DeviceNotFound";
     }
 
     @GetMapping("/view/lightBulb/{id}")
@@ -104,7 +106,7 @@ public class DashboardController {
                 .distinctUntilChanged();
     }
 
-    @RequestMapping("/devices")
+    @GetMapping("/devices")
     String deviceDetails(@RequestParam Long id, Model model) {
         if (this.plantCareDeviceService.findById(id).isPresent()) {
             PlantCareDevice plantCareDevice = this.plantCareDeviceService.findById(id).get();
