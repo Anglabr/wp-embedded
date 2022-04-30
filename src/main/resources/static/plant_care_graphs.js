@@ -8,8 +8,16 @@ let soilMoisture = []
 let dates = []
 
 let temp;
-for (let i = 0; i < dataEntryDiv.length; i++) {
-    temp = dataEntryDiv[i].innerText.split(" ")
+let n
+if (dataEntryDiv.length >= 20){
+    n = 20
+}
+else {
+    n = dataEntryDiv.length
+}
+
+for ( let i = 0; i < n; i++) {
+    temp = dataEntryDiv[dataEntryDiv.length - n + i].innerText.split(" ")
     dates[i] = temp[0]
     temperature[i] = parseInt(temp[1])
     humidity[i] = parseInt(temp[2])
@@ -24,25 +32,25 @@ const dataChart = new Chart(ctx, {
             {
                 label: 'Temperature chart',
                 data: temperature,
-                backgroundColor: "red",
-                borderColor: [],
-                borderWidth: 1
+                backgroundColor: 'rgba(255, 99, 132, 0.6)',
+                borderWidth: 2,
+                borderRadius: Number.MAX_VALUE,
             },
 
             {
                 label: 'Humidity chart',
                 data: humidity,
-                backgroundColor: "blue",
-                borderColor: [],
-                borderWidth: 1
+                backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                borderWidth: 2,
+                borderRadius: Number.MAX_VALUE,
             },
 
             {
                 label: 'Soil moisture chart',
                 data: soilMoisture,
-                backgroundColor: "orange",
-                borderColor: [],
-                borderWidth: 1
+                backgroundColor: 'rgba(255, 159, 64, 0.6)',
+                borderWidth: 2,
+                borderRadius: Number.MAX_VALUE,
             }
 
         ]
@@ -52,6 +60,9 @@ const dataChart = new Chart(ctx, {
             y: {
                 beginAtZero: true
             }
+        },
+        legend:{
+            position: 'right',
         }
     }
 });
