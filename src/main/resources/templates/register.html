@@ -29,6 +29,18 @@
         <div class="mb-1">
             <input type="password" id="password" name="password" placeholder="Password" class="form-control"/> <br />
         </div>
+        <div class="mb-1">
+            <input type="password" id="repeatPassword" name="repeatPassword" placeholder="Repeat Password" class="form-control"/> <br />
+        </div>
+        <div class="mb-1 form-check form-check-inline">
+            <input type="radio" id="ROLE_ADMIN" name="role" value="ROLE_ADMIN" class="form-check-input"/>
+            <label for="ROLE_ADMIN" class="form-check-label">I am an admin</label>
+        </div>
+        <div class="mb-1 form-check form-check-inline">
+            <input type="radio" id="ROLE_USER" name="role" value="ROLE_USER" class="form-check-input"/>
+            <label for="ROLE_USER" class="form-check-label">I am a regular user</label>
+        </div>
+        <br/>
         <button type="submit" class="btn btn-primary my-2">Register</button>
     </form>
     <form th:action="@{/login}" method="get">
