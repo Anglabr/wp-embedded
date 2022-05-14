@@ -7,6 +7,7 @@ import mk.ukim.finki.wp.embeddedsystemsmanager.model.data_entry.PlantCareDataEnt
 import mk.ukim.finki.wp.embeddedsystemsmanager.service.LightBulbDeviceService;
 import mk.ukim.finki.wp.embeddedsystemsmanager.service.PlantCareDeviceService;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,13 +46,30 @@ public class DashboardController {
         return "main_menu";
     }
 
+    @GetMapping("/login")
+    String login() {
+        return "login";
+    }
+
+    @GetMapping("/logout")
+    String logout() {
+        return "redirect:/login";
+    }
+
+    @PostMapping("/access_denied")
+    String accessDenied() {
+        return "access_denied";
+    }
+
     @PostMapping("/delete")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     String deleteAll(){
         plantCareDeviceService.deleteAll();
         return "redirect:/";
     }
 
     @PostMapping("/add")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     String add(){
         plantCareDeviceService.createPlantCareDevice();
         return "redirect:/";
