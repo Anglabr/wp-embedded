@@ -2,9 +2,7 @@ const ctx = document.getElementById('chart').getContext('2d');
 
 let dataEntryDiv = document.getElementsByName("data");
 
-let temperature = []
-let humidity = []
-let soilMoisture = []
+let turnedOn = []
 let dates = []
 
 let temp;
@@ -19,9 +17,13 @@ else {
 for ( let i = 0; i < n; i++) {
     temp = dataEntryDiv[dataEntryDiv.length - n + i].innerText.split(" ")
     dates[i] = temp[0]
-    temperature[i] = parseInt(temp[1])
-    humidity[i] = parseInt(temp[2])
-    soilMoisture[i] = parseInt(temp[3])
+
+    if (temp[1] === 'true'){
+        turnedOn[i] =  100
+    }
+    else{
+        turnedOn[i] = -100
+    }
 }
 
 const dataChart = new Chart(ctx, {
@@ -30,25 +32,9 @@ const dataChart = new Chart(ctx, {
         labels: dates,
         datasets: [
             {
-                label: 'Temperature chart',
-                data: temperature,
+                label: 'Light Bulb usage chart',
+                data: turnedOn,
                 backgroundColor: 'rgba(255, 99, 132, 0.6)',
-                borderWidth: 2,
-                borderRadius: Number.MAX_VALUE,
-            },
-
-            {
-                label: 'Humidity chart',
-                data: humidity,
-                backgroundColor: 'rgba(54, 162, 235, 0.6)',
-                borderWidth: 2,
-                borderRadius: Number.MAX_VALUE,
-            },
-
-            {
-                label: 'Soil moisture chart',
-                data: soilMoisture,
-                backgroundColor: 'rgba(255, 159, 64, 0.6)',
                 borderWidth: 2,
                 borderRadius: Number.MAX_VALUE,
             },

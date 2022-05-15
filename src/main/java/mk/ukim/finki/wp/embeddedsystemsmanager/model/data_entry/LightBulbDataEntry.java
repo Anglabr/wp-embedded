@@ -31,7 +31,6 @@ public class LightBulbDataEntry {
 
     @Override
     public String toString() {
-        return "turnedOn=" + turnedOn +
-                ", logTime=" + logTime ;
+        return String.format("%d.%d.%d %b", logTime.getDayOfMonth(), logTime.getMonthValue(), logTime.getYear(), turnedOn);
     }
 }

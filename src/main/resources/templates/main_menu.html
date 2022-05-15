@@ -40,7 +40,7 @@
         </th:block>
         <th:block th:if="${devices != null}">
             <div class="list-group">
-                <a th:each="device : ${devices}" th:href="@{/devices(id=${device.getId()})}" class="list-group-item list-group-item-action">
+                <a th:each="device : ${devices}" th:href="@{'/details/plantcare/{id}' (id=${device.getId()})}" class="list-group-item list-group-item-action">
                     <th:block th:text="${device.toString()} ">
                     </th:block>
                 </a>
@@ -67,7 +67,7 @@
         </th:block>
         <th:block th:if="${lightBulbDevices != null}">
             <div class="list-group">
-                <a th:each="device : ${lightBulbDevices}" th:href="@{/lightBulbDevices(id=${device.getId()})}" class="list-group-item list-group-item-action">
+                <a th:each="device : ${lightBulbDevices}" th:href="@{'/details/lightbulbs/{id}' (id=${device.getId()})}" class="list-group-item list-group-item-action">
                     <th:block th:text="${device.toString()} ">
                     </th:block>
                 </a>

@@ -81,7 +81,7 @@ public class DashboardController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     String addDataEntry(@PathVariable Long id, @RequestParam Long temperature, @RequestParam Long humidity, @RequestParam Long soilMoisture){
         plantCareDeviceService.addDataEntryById(id, temperature, humidity, soilMoisture);
-        return "redirect:/devices?id=" + id;
+        return "redirect:/details/plantcare/" + id;
     }
 
     @PostMapping("/addLightBulb")
@@ -103,7 +103,7 @@ public class DashboardController {
         if (lightBulbDeviceService.findLightBulbDeviceById(id).isPresent()) {
             lightBulbDeviceService.turnLightBulbOnOff(id);
             lbd_subscription = String.format("%d %s", id, lightBulbDeviceService.findLightBulbDeviceById(id).get().getTurnedOn() ? "On" : "Off");
-            return "redirect:/";
+            return "redirect:/details/lightbulbs/" + id;
         }
         return "redirect:/devices?error=DeviceNotFound";
     }
@@ -136,8 +136,8 @@ public class DashboardController {
                 .distinctUntilChanged();
     }
 
-    @GetMapping("/devices")
-    String deviceDetails(@RequestParam Long id, Model model) {
+    @GetMapping("/details/plantcare/{id}")
+    String deviceDetails(@PathVariable Long id, Model model) {
         if (this.plantCareDeviceService.findById(id).isPresent()) {
             PlantCareDevice plantCareDevice = this.plantCareDeviceService.findById(id).get();
             model.addAttribute("device", plantCareDevice);
@@ -145,6 +145,21 @@ public class DashboardController {
             List<PlantCareDataEntry> plantCareDataEntries = plantCareDeviceService.getAllDataEntriesById(id);
             model.addAttribute("entries", plantCareDataEntries);
             return "device_details";
+        }
+        return "redirect:/devices?error=DeviceNotFound";
+    }
+
+    @GetMapping("/details/lightbulbs/{id}")
+    String lightbulbDetails(@PathVariable Long id, Model model){
+        if (this.lightBulbDeviceService.findLightBulbDeviceById(id).isPresent()){
+            LightBulbDevice lightBulbDevice = this.lightBulbDeviceService.findLightBulbDeviceById(id).get();
+
+            model.addAttribute("device", lightBulbDevice);
+
+            List<LightBulbDataEntry> lightBulbDataEntries = lightBulbDeviceService.findAllDataForLightBulb(id);
+
+            model.addAttribute("entries", lightBulbDataEntries);
+            return "lightbulb_details";
         }
         return "redirect:/devices?error=DeviceNotFound";
     }
