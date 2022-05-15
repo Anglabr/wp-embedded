@@ -1,6 +1,7 @@
 package mk.ukim.finki.wp.embeddedsystemsmanager.service;
 
 import mk.ukim.finki.wp.embeddedsystemsmanager.model.LightBulbDevice;
+import mk.ukim.finki.wp.embeddedsystemsmanager.model.PlantCareDevice;
 import mk.ukim.finki.wp.embeddedsystemsmanager.model.data_entry.LightBulbDataEntry;
 import mk.ukim.finki.wp.embeddedsystemsmanager.repository.LightBulbDeviceRepository;
 import org.springframework.lang.Nullable;
@@ -17,6 +18,8 @@ public interface LightBulbDeviceService {
     Optional<LightBulbDataEntry> turnLightBulbOnOff(Long lightBulbDeviceId);
 
     Optional<LightBulbDevice> saveLightBulbDevice(@Nullable String location);
+
+    List<LightBulbDevice> deleteAll();
 
     Optional<LightBulbDevice> findLightBulbDeviceById(Long id);
 }

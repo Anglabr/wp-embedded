@@ -1,6 +1,7 @@
 package mk.ukim.finki.wp.embeddedsystemsmanager.service.impl;
 
 import mk.ukim.finki.wp.embeddedsystemsmanager.model.LightBulbDevice;
+import mk.ukim.finki.wp.embeddedsystemsmanager.model.PlantCareDevice;
 import mk.ukim.finki.wp.embeddedsystemsmanager.model.data_entry.LightBulbDataEntry;
 import mk.ukim.finki.wp.embeddedsystemsmanager.model.exception.LightBulbDeviceNotFoundException;
 import mk.ukim.finki.wp.embeddedsystemsmanager.model.exception.PlantCareDeviceIdException;
@@ -55,6 +56,15 @@ public class LightBulbDeviceServiceImpl implements LightBulbDeviceService {
     @Override
     public Optional<LightBulbDevice> saveLightBulbDevice(String location) {
         return Optional.of(lightBulbDeviceRepository.save(new LightBulbDevice(location == null ? "" : location)));
+    }
+
+    @Override
+    public List<LightBulbDevice> deleteAll() {
+        List<LightBulbDevice> plantCareDevices = lightBulbDeviceRepository.findAll();
+
+        lightBulbDataEntryRepository.deleteAll();
+        lightBulbDeviceRepository.deleteAll();
+        return plantCareDevices;
     }
 
     @Override
