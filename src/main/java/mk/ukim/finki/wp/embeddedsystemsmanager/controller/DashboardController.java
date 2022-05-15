@@ -8,6 +8,7 @@ import mk.ukim.finki.wp.embeddedsystemsmanager.service.LightBulbDeviceService;
 import mk.ukim.finki.wp.embeddedsystemsmanager.service.PlantCareDeviceService;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import reactor.core.publisher.Flux;
+
 import java.time.Duration;
 import java.util.List;
 
@@ -76,14 +78,23 @@ public class DashboardController {
     }
 
     @PostMapping("/addEntry/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     String addDataEntry(@PathVariable Long id, @RequestParam Long temperature, @RequestParam Long humidity, @RequestParam Long soilMoisture){
         plantCareDeviceService.addDataEntryById(id, temperature, humidity, soilMoisture);
         return "redirect:/devices?id=" + id;
     }
 
     @PostMapping("/addLightBulb")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     String addLightBulbDevice(@RequestParam(required = false) String location){
         lightBulbDeviceService.saveLightBulbDevice(location);
+        return "redirect:/";
+    }
+
+    @PostMapping("/deleteLightBulb")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    String deleteAllLightBulbDevices() {
+        lightBulbDeviceService.deleteAll();
         return "redirect:/";
     }
 

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -15,32 +16,63 @@
 <div th:insert="fragments/header :: header"></div>
 
 <div class="container">
-    <h1 class="my-5">My devices</h1>
-    <th:block sec:authorize="hasRole('ROLE_ADMIN')">
-        <div class="d-flex flex-row mb-3">
-            <div class="me-2">
-                <form method="post" action="/add">
-                    <button type="submit" class="btn btn-primary my-2">
-                        Add
-                    </button>
-                </form>
+    <h1 class="my-5" sec:authorize="!isAuthenticated()">Welcome! Please log in</h1>
+    <th:block sec:authorize="isAuthenticated()">
+        <h1 class="my-5">My devices</h1>
+        <h2 class="my-3">Plant Care Devices</h2>
+        <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+            <div class="d-flex flex-row mb-3">
+                <div class="me-2">
+                    <form method="post" action="/add">
+                        <button type="submit" class="btn btn-primary my-2">
+                            Add
+                        </button>
+                    </form>
+                </div>
+                <div>
+                    <form method="post" action="/delete">
+                        <button type="submit" class="btn btn-danger my-2">
+                            Delete all
+                        </button>
+                    </form>
+                </div>
             </div>
-            <div>
-                <form method="post" action="/delete">
-                    <button type="submit" class="btn btn-danger my-2">
-                        Delete all
-                    </button>
-                </form>
+        </th:block>
+        <th:block th:if="${devices != null}">
+            <div class="list-group">
+                <a th:each="device : ${devices}" th:href="@{/devices(id=${device.getId()})}" class="list-group-item list-group-item-action">
+                    <th:block th:text="${device.toString()} ">
+                    </th:block>
+                </a>
             </div>
-        </div>
-    </th:block>
-    <th:block th:if="${devices != null}">
-        <div class="list-group">
-            <a th:each="device : ${devices}" th:href="@{/devices(id=${device.getId()})}" class="list-group-item list-group-item-action">
-                <th:block th:text="${device.toString()} ">
-                </th:block>
-            </a>
-        </div>
+        </th:block>
+        <h2 class="my-3">Light Bulb Devices</h2>
+        <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+            <div class="d-flex flex-row mb-3">
+                <div class="me-2">
+                    <form method="post" action="/addLightBulb">
+                        <button type="submit" class="btn btn-primary my-2">
+                            Add
+                        </button>
+                    </form>
+                </div>
+                <div>
+                    <form method="post" action="/deleteLightBulb">
+                        <button type="submit" class="btn btn-danger my-2">
+                            Delete all
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </th:block>
+        <th:block th:if="${lightBulbDevices != null}">
+            <div class="list-group">
+                <a th:each="device : ${lightBulbDevices}" th:href="@{/lightBulbDevices(id=${device.getId()})}" class="list-group-item list-group-item-action">
+                    <th:block th:text="${device.toString()} ">
+                    </th:block>
+                </a>
+            </div>
+        </th:block>
     </th:block>
 </div>
 
